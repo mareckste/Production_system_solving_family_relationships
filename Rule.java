@@ -12,8 +12,8 @@ public class Rule {
 	}
 	
 	
-	public void setConditions(ArrayList<Condition> conditions, String delim) {
-		this.conditions = conditions;
+	public void addCondition(Condition c) {
+		this.conditions.add(c);
 	}
 	
 	
@@ -22,8 +22,8 @@ public class Rule {
 	}
 	
 	
-	public void setResultConditions(ArrayList<ResultCondition> resultConditions, String delim) {
-		this.resultConditions = resultConditions;
+	public void addResultCondition(ResultCondition r) {
+		this.resultConditions.add(r);
 	}
 	
 	public void setName(String name) {

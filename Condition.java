@@ -4,18 +4,17 @@ public class Condition {
 	private String[] words;
 	
 	
-	public void setWords(String[] s) {
-		this.words = s;
+	public Condition(String[] words) {
+		this.words = words;
 	}
 	
 	public String[] getWords() {
 		return this.words;
 	}
 	
-	public boolean isFact(String[] s) {
-		/*
-		 * porovnat nejak stringy
-		 */
-		return true;
+	public void printWords() {
+		System.out.println("Condition: " + this);
+		for (int i = 0; i < words.length; i++)
+			System.out.println(i +": "+words[i]);
 	}
 }

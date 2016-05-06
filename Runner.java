@@ -5,8 +5,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 
 public class Runner {
-	private static final String DELIM = "[():,]+";
-	
+	private static final String D_condition = "[():,]+";
+	private static final String D_space = "[ ]+";
 	
 	public static void main(String[] args) {
 		try {
@@ -25,22 +25,28 @@ public class Runner {
 		BufferedReader br = new BufferedReader(fr);
 		String[] tmp;
 		String name="", cond="", res="";
-		boolean t = true;
+		Condition c;
+		Rule rule;
+		
+		int t = 1;
 		
 		while ((name = br.readLine()) != null ) {
 			cond = br.readLine();
 			res = br.readLine();
-			//System.out.println(name + "\n" + cond + "\n" + res);
 			
-			tmp = cond.split(DELIM);
-			if (t) {
-			for (String c : tmp) {
-				System.out.println(c);
-				System.out.println("");
-			}
-			}
+			rule = new Rule();
 			
-			t = false;
+			
+			tmp = cond.split(D_condition);
+		    
+			System.out.println("===============C:" + t);
+			for (int i = 1; i < tmp.length; i++) {
+				c = new Condition(tmp[i].split(D_space));
+				rule.addCondition(c);
+			}
+
+			rules.add(rule);
+			t++;
 			name = br.readLine(); //emptyLine
 		}
 			br.close();
