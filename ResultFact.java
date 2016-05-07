@@ -8,7 +8,7 @@ public class ResultFact {
 	public ResultFact(String[] words) {
 		this.words = words;
 		setType();
-		shiftRight();
+		words = Functions.shiftRight(words);
 	}
 	
 	public void setWords(String[] s) {
@@ -52,11 +52,5 @@ public class ResultFact {
 			System.out.println(i +": "+words[i]);
 	}
 	
-	public void shiftRight() {
-		String[] tmp = new String[words.length - 1];
-		for (int i = 1; i < words.length; i++) {
-			tmp[i-1] = words[i];
-		}
-		words = tmp;
-	}
+	
 }

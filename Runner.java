@@ -8,31 +8,40 @@ public class Runner {
 	private static final String D_condition = "[():,]+";
 	private static final String D_space = "[ ]+";
 	private static final String D_result = "[()]+";
+	private static final String D_fact = "[() ]+";
+	
+	private static ArrayList<Rule> rules;
+	private static ArrayList<Fact> facts;
 	
 	public static void main(String[] args) {
 		try {
-		initRules();
+		rules = initRules();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		try {
+			facts = initFacts();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+		for (Fact f : facts) {
+			f.printWords();
+		}
 	}
 	
 	
 	private static ArrayList<Rule> initRules() throws Exception {
-		ArrayList<Rule> rules = new ArrayList<>();
 		FileReader fr = new FileReader("files/rules.txt");
 		BufferedReader br = new BufferedReader(fr);
+		
+		ArrayList<Rule> t_rules = new ArrayList<>();
 		String[] tmp, tmp_r;
 		String name="", cond="", res="";
-		Condition c;
-		ResultFact rf;
-		Rule rule;
+		Condition c; ResultFact rf; Rule rule;
 		
-		int t = 1;
-		
-		while ((name = br.readLine()) != null ) {
+		while ((name = br.readLine()) != null ) { //turns text into objects
 			cond = br.readLine();
 			res = br.readLine();
 			
@@ -50,16 +59,34 @@ public class Runner {
 				rule.addCondition(c);
 			}
 			
-			rule.printRule();
-			rules.add(rule);
-			t++;
+			t_rules.add(rule);
 			name = br.readLine(); //emptyLine
 		}
-			br.close();
-			fr.close();
+		br.close();
+		fr.close();
 		
-		
-		return rules;
+		return t_rules;
 	}
 
+	private static ArrayList<Fact> initFacts() throws Exception {
+		FileReader fr = new FileReader("files/facts.txt");
+		BufferedReader br = new BufferedReader(fr);
+		
+		ArrayList<Fact> t_facts = new ArrayList<>();
+		String[] tmp;
+		String line_f = "";
+		Fact fact;
+		
+		while ((line_f = br.readLine()) != null ) {
+			tmp = line_f.split(D_fact);
+			tmp = Functions.shiftRight(tmp);
+			fact = new Fact(tmp);
+			t_facts.add(fact);
+		}
+		
+		br.close();
+		fr.close();
+		
+		return t_facts;
+	}
 }
