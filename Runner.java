@@ -16,19 +16,24 @@ public class Runner {
 	public static void main(String[] args) {
 		try {
 		rules = initRules();
+		facts = initFacts();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		try {
-			facts = initFacts();
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
+		/*
+		 * pre kazde pravidlo
+		 * 	 		najst vsetky naviazania premennych
+		 * 			
+		 * 			pre kazde naviazanie
+		 * 				naviazat premenne k potom
+		 * 				ulozit ako potencionalne apk instanciu
+		 * 			end
+		 * 
+		 * end
+		 */
 		
-		for (Fact f : facts) {
-			f.printWords();
-		}
+		
 	}
 	
 	
