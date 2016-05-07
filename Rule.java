@@ -46,5 +46,9 @@ public class Rule {
 		for (Condition curr : conditions) {
 			curr.printWords();
 		}
+		
+		for (ResultFact curr : resultFacts) {
+			curr.printWords();
+		}
 	}
 }

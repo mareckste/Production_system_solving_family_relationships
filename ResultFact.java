@@ -8,6 +8,7 @@ public class ResultFact {
 	public ResultFact(String[] words) {
 		this.words = words;
 		setType();
+		shiftRight();
 	}
 	
 	public void setWords(String[] s) {
@@ -46,8 +47,16 @@ public class ResultFact {
 	}
 	
 	public void printWords() {
-		System.out.println("Condition: " + this);
+		System.out.println("ResultFact type: " + type.toString() + " " + this);
 		for (int i = 0; i < words.length; i++)
 			System.out.println(i +": "+words[i]);
+	}
+	
+	public void shiftRight() {
+		String[] tmp = new String[words.length - 1];
+		for (int i = 1; i < words.length; i++) {
+			tmp[i-1] = words[i];
+		}
+		words = tmp;
 	}
 }
