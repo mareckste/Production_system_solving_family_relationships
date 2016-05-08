@@ -60,12 +60,9 @@ public class Rule {
 		if (depth > conditions.size()-1) {
 			for (ResultFact rf : resultFacts) {
 				String[] replaced = replace(vars, rf);
+				NewFact nf = new NewFact(replaced, rf.getAction());
 				
-			
-			
-			
-			
-				if (saveNewFact(replaced) == true)
+				if (saveNewFact(nf) == true)
 					done = true;
 			}
 			return done;
@@ -124,14 +121,36 @@ public class Rule {
 		return tmp;
 	}
 	
-	private boolean saveNewFact(String[] replaced) {
-		for (Fact f : Runner.newFacts) {
-			String[] fa = f.getWords();
-			if (Arrays.equals(fa, replaced) == true) return false;
-			
+	private boolean saveNewFact(NewFact nf) {
+		int t = 0; Action a = nf.getAction(); String[] res = nf.getWords();
+		
+		if (a == Action.pridaj) {
+			for (Fact f : Runner.facts) {
+				String[] fa = f.getWords();
+				if (Arrays.equals(fa, res) == true) { t++; break;}
+			}
+			for (NewFact f : Runner.newFacts) {
+				String[] fa = f.getWords();
+				if (Arrays.equals(fa, res) == true) { t++; break;}
+			}
+			if (t == 0) {
+				Runner.newFacts.add(nf);
+				return true;
+			}
+			else return false;
 		}
 		
-		return true;
+		if (a == Action.vymaz) {
+			for (Fact f : Runner.facts) {
+				String[] fa = f.getWords();
+				if (Arrays.equals(fa, res) == true) { Runner.newFacts.add(nf);return true;}
+			}
+			return false;
+		}
+		if (a == Action.sprava) {
+			return false;
+		}
+		return false;
 	}
 	
 	private boolean wordsMatch(String[] f, String[] c) {

@@ -11,8 +11,8 @@ public class Runner {
 	private static final String D_fact = "[() ]+";
 	
 	private static ArrayList<Rule> rules;
-	private static ArrayList<Fact> facts;
-	public static ArrayList<Fact> newFacts = new ArrayList<>();
+	public static ArrayList<Fact> facts;
+	public static ArrayList<NewFact> newFacts = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		try {
