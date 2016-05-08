@@ -1,6 +1,5 @@
 package solution;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -114,7 +113,13 @@ public class Rule {
 	}
 
 	private String[] replace(ArrayList<Variable> vars, ResultFact rf) {
-		String[] tmp = new String[this.resultFacts.get(0).toString().length()];
+		String [] tmp = rf.getWords();
+		
+		for (int i = 0; i < tmp.length; i++) {
+			if (tmp[i].charAt(0)=='?') {
+				tmp[i] = getVarValue(tmp[i], vars).getValue();
+			}
+		}
 		
 		return tmp;
 	}
