@@ -56,34 +56,44 @@ public class Rule {
 	
 	public boolean findMatch(Condition c_part, int depth, ArrayList<Variable> vars, ArrayList<Fact> facts) {
 		ArrayList<Variable> localVars = new ArrayList<>();
-		boolean next=false, ok = false;
+		boolean next=false, ok = false, eq = false; boolean done = false;
 		
 		if (depth > conditions.size()-1) {
-			String[] replaced = replace(vars);
-			if (saveNewFact(replaced) == true)
-				return true;
-			else return false;
+			for (ResultFact rf : resultFacts) {
+				String[] replaced = replace(vars, rf);
+				
+			
+			
+			
+			
+				if (saveNewFact(replaced) == true)
+					done = true;
+			}
+			return done;
 		}
 		
 		for (Fact fact : facts) {
 			localVars.clear();
-			ok = false;
+			ok = false; eq = false;
 			
+			if (equalTest(c_part, vars) == true) { ok = true; eq = true; } 
 			if (wordsMatch(fact.getWords(), c_part.getWords()) == false) continue;
 			
 			String[] f = fact.getWords();
 			String[] c = c_part.getWords();
 			Variable lvar;
-			for (int i = 0; i < f.length; i++) {
-				ok = true;
-				if (c[i].equals(f[i]) == false) {
-					lvar = findVar(c[i], vars);
-					if (lvar == null) {
-						localVars.add(new Variable(c[i], f[i]));
-						continue;
+			if (eq == false) {
+				for (int i = 0; i < f.length; i++) {
+					ok = true;
+					if (c[i].equals(f[i]) == false) {
+						lvar = findVar(c[i], vars);
+						if (lvar == null) {
+							localVars.add(new Variable(c[i], f[i]));
+							continue;
+						}
+						else if (lvar.getValue().equals(f[i])) continue;
+						else {ok = false; break;}
 					}
-					else if (lvar.getValue().equals(f[i])) continue;
-					else {ok = false; break;}
 				}
 			}
 			if (ok == true) {
@@ -103,7 +113,7 @@ public class Rule {
 		return null;
 	}
 
-	private String[] replace(ArrayList<Variable> vars) {
+	private String[] replace(ArrayList<Variable> vars, ResultFact rf) {
 		String[] tmp = new String[this.resultFacts.get(0).toString().length()];
 		
 		return tmp;
@@ -129,6 +139,42 @@ public class Rule {
 			}
 		}
 		return true;
+	}
+	
+	private boolean equalTest(Condition c, ArrayList<Variable> vars) {
+		String [] tmp = c.getWords();
+		Variable v1=null, v2 = null;
+		boolean found = false;
+		
+		if (tmp[0].equals("<>")) {
+			for (int i = 0; i < tmp.length; i++) {
+				if (tmp[i].charAt(0) == '?') {
+					if (found == false) {
+						v1 = getVarValue(tmp[i], vars);
+						found = true;
+					}
+					else {
+						if (v1.getVariable().equals(tmp[i]) == false) {
+							v2 = getVarValue(tmp[i], vars);
+						 	if (v2.getValue().equals(v1.getValue()) == false) {
+						 		return true;
+						 	}
+						 	else return false;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	private Variable getVarValue(String v, ArrayList<Variable> vars) {
+		for (Variable curr : vars) {
+			if (curr.getVariable().equals(v)) {
+				return curr;
+			}
+		}
+		return null;
 	}
 	
 }
