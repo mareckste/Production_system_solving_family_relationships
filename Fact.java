@@ -1,7 +1,7 @@
 package solution;
 
 public class Fact {
-	String[] words;
+	private String[] words;
 	
 	public Fact(String[] words) {
 		this.words = words;

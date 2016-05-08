@@ -12,6 +12,7 @@ public class Runner {
 	
 	private static ArrayList<Rule> rules;
 	private static ArrayList<Fact> facts;
+	public static ArrayList<Fact> newFacts = new ArrayList<>();
 	
 	public static void main(String[] args) {
 		try {
