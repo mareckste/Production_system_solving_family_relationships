@@ -51,4 +51,36 @@ public class Rule {
 			curr.printWords();
 		}
 	}
+	
+	/*public void findFacts(ArrayList<Fact> f) { 
+		ArrayList<Replacement> rpl = new ArrayList<>();
+		int x = 0;
+		
+		for (Condition curr : conditions) {
+			String[] t_c = curr.getWords();
+			for (Fact cf : f) {
+				String[] t_f = cf.getWords();
+				
+				if (t_c.length == t_f.length) {
+					for (int i = 0; i < t_c.length; i++) {
+						if (t_c[i].equals(t_f[i]))
+							continue;
+						else if ((t_c[i].charAt(0) == '?') && Character.isUpperCase(t_f[i].charAt(0))) {
+							if (x == 0)
+								rpl.add(new Replacement(t_c[i], t_f[i]));
+							else {
+								for (Replacement r : rpl) {
+									if (t_c[i].equals(r.getVariable()) && t_c[i].equals(r.getValue())) {
+										
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			x++;
+		}
+		
+	}*/
 }

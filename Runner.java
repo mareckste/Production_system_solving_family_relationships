@@ -23,7 +23,7 @@ public class Runner {
 		
 		/*
 		 * pre kazde pravidlo
-		 * 	 		najst vsetky naviazania premennych
+		 * 	 		naviazat 
 		 * 			
 		 * 			pre kazde naviazanie
 		 * 				naviazat premenne k potom
