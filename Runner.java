@@ -38,9 +38,9 @@ public class Runner {
 			r.findMatch(0, new ArrayList<Variable>(), facts);
 		}
 		
-		for (NewFact r : newFacts) {
+		/*for (NewFact r : newFacts) {
 			r.printWords();
-		}
+		}*/
 	}
 	
 	

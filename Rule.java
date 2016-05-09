@@ -72,9 +72,11 @@ public class Rule {
 		
 		for (Fact fact : facts) {
 			localVars.clear();
+			if (vars != null)
+				localVars.addAll(vars);
 			ok = false; eq = false;
 			
-			if (equalTest(c_part, vars) == true) { ok = true; eq = true; } 
+			if (equalTest(c_part, localVars) == true) { ok = true; eq = true; } 
 			if (wordsMatch(fact.getWords(), c_part.getWords()) == false) continue;
 			
 			String[] f = fact.getWords();
@@ -84,7 +86,7 @@ public class Rule {
 				for (int i = 0; i < f.length; i++) {
 					ok = true;
 					if (c[i].equals(f[i]) == false) {
-						lvar = findVar(c[i], vars);
+						lvar = findVar(c[i], localVars);
 						if (lvar == null) {
 							localVars.add(new Variable(c[i], f[i]));
 							continue;
@@ -95,10 +97,10 @@ public class Rule {
 				}
 			}
 			if (ok == true) {
-				vars.addAll(localVars);
-				next = findMatch(depth + 1, vars, facts);
+				//vars.addAll(localVars);
+				next = findMatch(depth + 1, localVars, facts);
 			}
-			if (next == true) return true;
+			//if (next == true) return true;
 		}
 		return false;
 	}
@@ -113,19 +115,21 @@ public class Rule {
 
 	private String[] replace(ArrayList<Variable> vars, ResultFact rf) {
 		String [] tmp = rf.getWords();
+		String [] tmp2 = new String[rf.getWords().length];
 		
 		for (int i = 0; i < tmp.length; i++) {
 			if (tmp[i].charAt(0)=='?') {
-				tmp[i] = getVarValue(tmp[i], vars).getValue();
+				tmp2[i] = getVarValue(tmp[i], vars).getValue();
 			}
+			else tmp2[i] = tmp[i];
 		}
 		
-		return tmp;
+		return tmp2;
 	}
 	
 	private boolean saveNewFact(NewFact nf) {
 		int t = 0; Action a = nf.getAction(); String[] res = nf.getWords();
-		
+		nf.printWords();
 		if (a == Action.pridaj) {
 			for (Fact f : Runner.facts) {
 				String[] fa = f.getWords();
