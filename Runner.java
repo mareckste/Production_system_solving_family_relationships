@@ -34,7 +34,13 @@ public class Runner {
 		 * end
 		 */
 		
+		for (Rule r : rules) {
+			r.findMatch(0, new ArrayList<Variable>(), facts);
+		}
 		
+		for (NewFact r : newFacts) {
+			r.printWords();
+		}
 	}
 	
 	

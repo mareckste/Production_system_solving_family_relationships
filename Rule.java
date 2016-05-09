@@ -53,7 +53,8 @@ public class Rule {
 		}
 	}
 	
-	public boolean findMatch(Condition c_part, int depth, ArrayList<Variable> vars, ArrayList<Fact> facts) {
+	public boolean findMatch(int depth, ArrayList<Variable> vars, ArrayList<Fact> facts) {
+		Condition c_part;
 		ArrayList<Variable> localVars = new ArrayList<>();
 		boolean next=false, ok = false, eq = false; boolean done = false;
 		
@@ -67,6 +68,7 @@ public class Rule {
 			}
 			return done;
 		}
+		 c_part = conditions.get(depth); 
 		
 		for (Fact fact : facts) {
 			localVars.clear();
@@ -94,7 +96,7 @@ public class Rule {
 			}
 			if (ok == true) {
 				vars.addAll(localVars);
-				next = findMatch(c_part, depth + 1, vars, facts);
+				next = findMatch(depth + 1, vars, facts);
 			}
 			if (next == true) return true;
 		}
@@ -161,8 +163,9 @@ public class Rule {
 				}
 				else return false;
 			}
+			return true;
 		}
-		return true;
+		else return false;
 	}
 	
 	private boolean equalTest(Condition c, ArrayList<Variable> vars) {
