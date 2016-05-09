@@ -121,16 +121,18 @@ public class Rule {
 	
 	private boolean saveNewFact(NewFact nf) {
 		int t = 0; Action a = nf.getAction(); String[] res = nf.getWords();
-		//nf.printWords();
+		
 		if (a == Action.pridaj) {
 			for (Fact f : Runner.facts) {
 				String[] fa = f.getWords();
 				if (Arrays.equals(fa, res) == true) { t++; break;}
 			}
+			
 			for (NewFact f : Runner.newFacts) {
 				String[] fa = f.getWords();
 				if (Arrays.equals(fa, res) == true) { t++; break;}
 			}
+			
 			if (t == 0) {
 				Runner.newFacts.add(nf);
 				return true;
@@ -160,7 +162,7 @@ public class Rule {
 				if (Arrays.equals(fa, res) == true) { t++; break;}
 			}
 			if (t == 0) {
-			//	Runner.newFacts.add(nf);
+			Runner.newFacts.add(nf);
 				//return true;
 			}
 			else return false;

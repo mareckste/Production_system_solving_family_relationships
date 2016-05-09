@@ -42,8 +42,7 @@ public class Runner {
 					facts.add(new Fact(newf.getWords()));
 					break;
 				
-				case vymaz:	
-					System.out.println("Mazem fakt:" + newf);
+				case vymaz:
 					int index=0;
 					boolean found = false;
 					String[] nf = newf.getWords();
@@ -61,8 +60,7 @@ public class Runner {
 					break;
 				
 				case sprava:
-					System.out.println("Sprava:");
-					newf.printWords();
+					System.out.println("Sprava: " + newf);
 					break;
 				default: e = false; break;
 				
@@ -76,12 +74,12 @@ public class Runner {
 			    
 
 		}
-		System.out.println("========FINAL_FACTS==========");
+		System.out.println("****========FINAL_FACTS==========****");
 		for (Fact r : facts) {
 			
 			System.out.println(r);
 		}
-		
+		System.out.println("****========END==========****");
 	}
 	
 	
