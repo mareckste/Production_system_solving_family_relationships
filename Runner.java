@@ -35,12 +35,12 @@ public class Runner {
 		 */
 		
 		for (Rule r : rules) {
-			r.findMatch(0, new ArrayList<Variable>(), facts);
+				r.findMatch(0, new ArrayList<Variable>(), facts);
 		}
 		
-		/*for (NewFact r : newFacts) {
+		for (NewFact r : newFacts) {
 			r.printWords();
-		}*/
+		}
 	}
 	
 	

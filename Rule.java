@@ -56,7 +56,7 @@ public class Rule {
 	public boolean findMatch(int depth, ArrayList<Variable> vars, ArrayList<Fact> facts) {
 		Condition c_part;
 		ArrayList<Variable> localVars = new ArrayList<>();
-		boolean next=false, ok = false, eq = false; boolean done = false;
+		boolean ok = false, eq = false; boolean done = false;
 		
 		if (depth > conditions.size()-1) {
 			for (ResultFact rf : resultFacts) {
@@ -77,7 +77,7 @@ public class Rule {
 			ok = false; eq = false;
 			
 			if (equalTest(c_part, localVars) == true) { ok = true; eq = true; } 
-			if (wordsMatch(fact.getWords(), c_part.getWords()) == false) continue;
+			if (eq == false && wordsMatch(fact.getWords(), c_part.getWords()) == false) continue;
 			
 			String[] f = fact.getWords();
 			String[] c = c_part.getWords();
@@ -98,7 +98,7 @@ public class Rule {
 			}
 			if (ok == true) {
 				//vars.addAll(localVars);
-				next = findMatch(depth + 1, localVars, facts);
+				findMatch(depth + 1, localVars, facts);
 			}
 			//if (next == true) return true;
 		}
@@ -129,7 +129,7 @@ public class Rule {
 	
 	private boolean saveNewFact(NewFact nf) {
 		int t = 0; Action a = nf.getAction(); String[] res = nf.getWords();
-		nf.printWords();
+		//nf.printWords();
 		if (a == Action.pridaj) {
 			for (Fact f : Runner.facts) {
 				String[] fa = f.getWords();
@@ -177,6 +177,8 @@ public class Rule {
 		Variable v1=null, v2 = null;
 		boolean found = false;
 		
+		//c.printWords();
+		
 		if (tmp[0].equals("<>")) {
 			for (int i = 0; i < tmp.length; i++) {
 				if (tmp[i].charAt(0) == '?') {
@@ -185,9 +187,11 @@ public class Rule {
 						found = true;
 					}
 					else {
+						
 						if (v1.getVariable().equals(tmp[i]) == false) {
 							v2 = getVarValue(tmp[i], vars);
 						 	if (v2.getValue().equals(v1.getValue()) == false) {
+						 		
 						 		return true;
 						 	}
 						 	else return false;
