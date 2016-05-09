@@ -3,6 +3,7 @@ package solution;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Runner {
 	private static final String D_condition = "[():,]+";
@@ -33,12 +34,40 @@ public class Runner {
 		 * 
 		 * end
 		 */
-		
-		for (Rule r : rules) {
+		while (true) {
+			for (Rule r : rules) {
 				r.findMatch(0, new ArrayList<Variable>(), facts);
+			}
+			
+			if (newFacts.size() == 0) {
+				break;
+			}
+			
+				NewFact newf = newFacts.remove(0);
+				switch (newf.getAction()) {
+				case pridaj:
+					facts.add(new Fact(newf.getWords()));
+					break;
+				case vymaz:
+					int index=0;
+					String[] nf = newf.getWords();
+					for (Fact fact : facts) {
+						String[] fa = fact.getWords();
+						if (Arrays.equals(fa, nf) == true) { facts.remove(index); break; }
+						index++;
+					}
+					break;
+				case sprava:
+					System.out.println("Sprava:");
+					newf.printWords();
+					break;
+				default: break;
+				
+			}
 		}
-		
-		for (NewFact r : newFacts) {
+		System.out.println("==================");
+		for (Fact r : facts) {
+			
 			r.printWords();
 		}
 	}

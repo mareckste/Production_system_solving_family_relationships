@@ -19,16 +19,13 @@ public class Rule {
 		return conditions;
 	}
 	
-	
 	public void addCondition(Condition c) {
 		this.conditions.add(c);
 	}
 	
-	
 	public ArrayList<ResultFact> getResultConditions() {
 		return resultFacts;
 	}
-	
 	
 	public void addResultFact(ResultFact r) {
 		this.resultFacts.add(r);
@@ -128,7 +125,7 @@ public class Rule {
 	}
 	
 	private boolean saveNewFact(NewFact nf) {
-		int t = 0; Action a = nf.getAction(); String[] res = nf.getWords();
+		int t = 0, x = 0; Action a = nf.getAction(); String[] res = nf.getWords();
 		//nf.printWords();
 		if (a == Action.pridaj) {
 			for (Fact f : Runner.facts) {
@@ -150,11 +147,21 @@ public class Rule {
 			for (Fact f : Runner.facts) {
 				String[] fa = f.getWords();
 				if (Arrays.equals(fa, res) == true) { Runner.newFacts.add(nf);return true;}
+				x++;
 			}
 			return false;
 		}
 		if (a == Action.sprava) {
-			return false;
+			t=0;
+			for (NewFact f : Runner.newFacts) {
+				String[] fa = f.getWords();
+				if (Arrays.equals(fa, res) == true) { t++; break;}
+			}
+			if (t == 0) {
+			//	Runner.newFacts.add(nf);
+				//return true;
+			}
+			else return false;
 		}
 		return false;
 	}
