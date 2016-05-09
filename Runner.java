@@ -17,15 +17,16 @@ public class Runner {
 	public static ArrayList<NewFact> newFacts = new ArrayList<>();
 	
 	public static void main(String[] args) {
+		boolean e = true;
 		try {
 		rules = initRules();
 		facts = initFacts();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		String sWhatever = "y";
-		while (sWhatever.equals("y")) {
-			
+		
+		while (true) {
+			e = true;
 			for (Rule r : rules) {
 				r.findMatch(0, new ArrayList<Variable>(), facts);
 			}
@@ -33,44 +34,49 @@ public class Runner {
 			if (newFacts.size() == 0) {
 				break;
 			}
-			
 				NewFact newf = newFacts.remove(0);
-				System.out.println("FAKT: " + newf);
+				
 				switch (newf.getAction()) {
 				case pridaj:
 					System.out.println("Pridaj: " + newf);
 					facts.add(new Fact(newf.getWords()));
 					break;
-				case vymaz:
-					
+				
+				case vymaz:	
+					System.out.println("Mazem fakt:" + newf);
 					int index=0;
+					boolean found = false;
 					String[] nf = newf.getWords();
 					for (Fact fact : facts) {
 						String[] fa = fact.getWords();
-						if (Arrays.equals(fa, nf) == true) { 
+						if (Arrays.equals(fa, nf) == true) {
+							found = true;
 							facts.remove(index);
 							System.out.println("Vymaz: " + newf);
 							break; 
 						}
 						index++;
 					}
+					if (found == false) e = false;
 					break;
+				
 				case sprava:
 					System.out.println("Sprava:");
 					newf.printWords();
 					break;
-				default: break;
+				default: e = false; break;
 				
 			}
-				 System.out.println("Continue [y,n] : ");
-				    
-				 
-			     
-			       Scanner scanIn = new Scanner(System.in);
-			       sWhatever = scanIn.nextLine();
+				if (e == true) {
+				 System.out.println("Press ENTER to next step: ");
+			     @SuppressWarnings("resource")
+			     Scanner scanIn = new Scanner(System.in);
+			     scanIn.nextLine();
+				}
+			    
 
 		}
-		System.out.println("==================");
+		System.out.println("========FINAL_FACTS==========");
 		for (Fact r : facts) {
 			
 			System.out.println(r);

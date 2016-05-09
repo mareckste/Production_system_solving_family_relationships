@@ -50,20 +50,19 @@ public class Rule {
 		}
 	}
 	
-	public boolean findMatch(int depth, ArrayList<Variable> vars, ArrayList<Fact> facts) {
+	public void findMatch(int depth, ArrayList<Variable> vars, ArrayList<Fact> facts) {
 		Condition c_part;
 		ArrayList<Variable> localVars = new ArrayList<>();
-		boolean ok = false, eq = false; boolean done = false;
+		boolean ok = false, eq = false; 
 		
 		if (depth > conditions.size()-1) {
 			for (ResultFact rf : resultFacts) {
 				String[] replaced = replace(vars, rf);
 				NewFact nf = new NewFact(replaced, rf.getAction());
 				
-				if (saveNewFact(nf) == true)
-					done = true;
+				if (saveNewFact(nf) == false) break;	
 			}
-			return done;
+			return;
 		}
 		 c_part = conditions.get(depth); 
 		
@@ -79,6 +78,7 @@ public class Rule {
 			String[] f = fact.getWords();
 			String[] c = c_part.getWords();
 			Variable lvar;
+			
 			if (eq == false) {
 				for (int i = 0; i < f.length; i++) {
 					ok = true;
@@ -93,13 +93,8 @@ public class Rule {
 					}
 				}
 			}
-			if (ok == true) {
-				//vars.addAll(localVars);
-				findMatch(depth + 1, localVars, facts);
-			}
-			//if (next == true) return true;
+			if (ok == true) findMatch(depth + 1, localVars, facts);
 		}
-		return false;
 	}
 	
 	private Variable findVar(String varname, ArrayList<Variable> vars) {
@@ -125,7 +120,7 @@ public class Rule {
 	}
 	
 	private boolean saveNewFact(NewFact nf) {
-		int t = 0, x = 0; Action a = nf.getAction(); String[] res = nf.getWords();
+		int t = 0; Action a = nf.getAction(); String[] res = nf.getWords();
 		//nf.printWords();
 		if (a == Action.pridaj) {
 			for (Fact f : Runner.facts) {
@@ -144,11 +139,18 @@ public class Rule {
 		}
 		
 		if (a == Action.vymaz) {
+			
+			for (NewFact f : Runner.newFacts) {
+				String[] fa = f.getWords();
+				if (Arrays.equals(fa, res) == true) { return false;}
+			}
+			
 			for (Fact f : Runner.facts) {
 				String[] fa = f.getWords();
 				if (Arrays.equals(fa, res) == true) { Runner.newFacts.add(nf);return true;}
-				x++;
+			
 			}
+			
 			return false;
 		}
 		if (a == Action.sprava) {
