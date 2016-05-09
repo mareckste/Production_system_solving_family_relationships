@@ -16,4 +16,14 @@ public class Fact {
 		for (int i = 0; i < words.length; i++)
 			System.out.println(i +": "+words[i]);
 	}
+	
+	public String toString() {
+		String s = "";
+		for (int i = 0; i < words.length; i++) {
+			if (i == words.length - 1)
+				s += words[i];
+			else s += words[i] + " ";		
+		}
+		return s;
+	}
 }

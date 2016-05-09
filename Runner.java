@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Runner {
 	private static final String D_condition = "[():,]+";
@@ -22,19 +23,9 @@ public class Runner {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		/*
-		 * pre kazde pravidlo
-		 * 	 		naviazat 
-		 * 			
-		 * 			pre kazde naviazanie
-		 * 				naviazat premenne k potom
-		 * 				ulozit ako potencionalne apk instanciu
-		 * 			end
-		 * 
-		 * end
-		 */
-		while (true) {
+		String sWhatever = "y";
+		while (sWhatever.equals("y")) {
+			
 			for (Rule r : rules) {
 				r.findMatch(0, new ArrayList<Variable>(), facts);
 			}
@@ -44,16 +35,23 @@ public class Runner {
 			}
 			
 				NewFact newf = newFacts.remove(0);
+				System.out.println("FAKT: " + newf);
 				switch (newf.getAction()) {
 				case pridaj:
+					System.out.println("Pridaj: " + newf);
 					facts.add(new Fact(newf.getWords()));
 					break;
 				case vymaz:
+					
 					int index=0;
 					String[] nf = newf.getWords();
 					for (Fact fact : facts) {
 						String[] fa = fact.getWords();
-						if (Arrays.equals(fa, nf) == true) { facts.remove(index); break; }
+						if (Arrays.equals(fa, nf) == true) { 
+							facts.remove(index);
+							System.out.println("Vymaz: " + newf);
+							break; 
+						}
 						index++;
 					}
 					break;
@@ -64,12 +62,20 @@ public class Runner {
 				default: break;
 				
 			}
+				 System.out.println("Continue [y,n] : ");
+				    
+				 
+			     
+			       Scanner scanIn = new Scanner(System.in);
+			       sWhatever = scanIn.nextLine();
+
 		}
 		System.out.println("==================");
 		for (Fact r : facts) {
 			
-			r.printWords();
+			System.out.println(r);
 		}
+		
 	}
 	
 	
